@@ -13,7 +13,8 @@ CREATE TABLE PARTIDA
     game_id number PRIMARY KEY,
     game_lenght number,
     game_date date,
-    game_mode varchar2(20)
+    game_mode varchar2(20),
+    lenguaje varchar2(30)
 )TABLESPACE repositorio_tablas;
 
 CREATE TABLE HEROES
@@ -38,10 +39,11 @@ CREATE TABLE MAPAS
 
 CREATE TABLE USUARIOS
 (
-    user_id number PRIMARY KEY,
+    user_id number,
     user_name varchar2(30),
     user_login date,
     game_id number,
+    PRIMARY KEY (user_id,user_login),
     CONSTRAINT FK_usuarios_partida_game_id FOREIGN KEY (game_id)
     REFERENCES PARTIDA(game_id)
 )TABLESPACE repositorio_tablas;
@@ -59,16 +61,20 @@ CREATE TABLE HABILIDADES
 CREATE TABLE ARCHIVO_CODIGO
 (
     archivo_id number PRIMARY KEY,
+    date_archived date,
     lenguaje varchar2(30),
+    file_name varchar2(30),
     hability_id number,
     map_id number,
     user_id number,
+    user_login date,
+    PRIMARY (archivo_id, date_archived),
     CONSTRAINT FK_ARCHIVO_CODIGO_habilidades_hability_id FOREIGN KEY (hability_id)
     REFERENCES HABILIDADES(hability_id),
     CONSTRAINT FK_ARCHIVO_CODIGO_mapas_map_id FOREIGN KEY (map_id)
     REFERENCES MAPAS(map_id),
-    CONSTRAINT FK_ARCHIVO_CODIGO_usuarios_user_id FOREIGN KEY (user_id)
-    REFERENCES USUARIOS(user_id)
+    CONSTRAINT FK_ARCHIVO_CODIGO_usuarios_user_id FOREIGN KEY (user_id,user_login)
+    REFERENCES USUARIOS(user_id,user_login)
 )TABLESPACE repositorio_tablas;
 
 CREATE SEQUENCE habilidades_primary_sequence

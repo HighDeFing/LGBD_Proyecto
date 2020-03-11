@@ -1,25 +1,12 @@
 
 
+DROP TABLE PARTIDA CASCADE CONSTRAINTS;
+DROP TABLE HEROES CASCADE CONSTRAINTS;
+DROP TABLE MAPAS CASCADE CONSTRAINTS;
+DROP TABLE USUARIOS CASCADE CONSTRAINTS;
+DROP TABLE HABILIDADES CASCADE CONSTRAINTS;
+DROP TABLE ARCHIVO_CODIGO CASCADE CONSTRAINTS;
 
-CREATE TABLE HEROES
-(
-    hero_id number PRIMARY KEY,
-    hero_name varchar2(30),
-    hero_legion varchar2(30),
-    game_id number,
-    CONSTRAINT FK_game_id_heroes FOREIGN KEY (game_id)
-    REFERENCES Partida(game_id)
-)TABLESPACE repositorio_tablas;
-
-CREATE TABLE HABILIDADES
-(
-    hability_id number PRIMARY KEY,
-    hability_name varchar2(30),
-    hability_damage number(10),
-    hero_id number,
-    CONSTRAINT FK_hero_id_heroes FOREIGN KEY (hero_id)
-    REFERENCES HEROES(hero_id)
-) TABLESPACE repositorio_tablas;
 
 CREATE TABLE PARTIDA
 (
@@ -29,25 +16,45 @@ CREATE TABLE PARTIDA
     game_mode varchar2(20)
 )TABLESPACE repositorio_tablas;
 
+CREATE TABLE HEROES
+(
+    hero_id number PRIMARY KEY,
+    hero_name varchar2(30),
+    hero_legion varchar2(30),
+    game_id number,
+    CONSTRAINT FK_heroes_Partida_game_id FOREIGN KEY (game_id)
+    REFERENCES Partida(game_id)
+)TABLESPACE repositorio_tablas;
+
 CREATE TABLE MAPAS
 (
     map_id number PRIMARY KEY,
-    map_name varchar2(30)
+    map_name varchar2(30),
     map_type varchar2(20),
     game_id number,
-    CONSTRAINT FK_game_id_mapa FOREIGN KEY (game_id)
+    CONSTRAINT FK_mapas_partida_game_id FOREIGN KEY (game_id)
     REFERENCES PARTIDA(game_id)
 )TABLESPACE repositorio_tablas;
 
-CRETE TABLE USUARIOS
+CREATE TABLE USUARIOS
 (
     user_id number PRIMARY KEY,
     user_name varchar2(30),
     user_login date,
     game_id number,
-    CONSTRAINT FK_game_id_usuario FOREIGN KEY (game_id)
+    CONSTRAINT FK_usuarios_partida_game_id FOREIGN KEY (game_id)
     REFERENCES PARTIDA(game_id)
 )TABLESPACE repositorio_tablas;
+
+CREATE TABLE HABILIDADES
+(
+    hability_id number PRIMARY KEY,
+    hability_name varchar2(30),
+    hability_damage number(10),
+    hero_id number,
+    CONSTRAINT FK_habilidades_heroes_hero_id FOREIGN KEY (hero_id)
+    REFERENCES HEROES(hero_id)
+) TABLESPACE repositorio_tablas;
 
 CREATE TABLE ARCHIVO_CODIGO
 (
@@ -56,11 +63,11 @@ CREATE TABLE ARCHIVO_CODIGO
     hability_id number,
     map_id number,
     user_id number,
-    CONSTRAINT FK_hability_id_habilidades FOREIGN KEY (hability_id)
+    CONSTRAINT FK_ARCHIVO_CODIGO_habilidades_hability_id FOREIGN KEY (hability_id)
     REFERENCES HABILIDADES(hability_id),
-    CONSTRAINT FK_map_id_mapas FOREIGN KEY (map_id)
+    CONSTRAINT FK_ARCHIVO_CODIGO_mapas_map_id FOREIGN KEY (map_id)
     REFERENCES MAPAS(map_id),
-    CONSTRAINT FK_user_id_usuario FOREIGN KEY (user_id)
+    CONSTRAINT FK_ARCHIVO_CODIGO_usuarios_user_id FOREIGN KEY (user_id)
     REFERENCES USUARIOS(user_id)
 )TABLESPACE repositorio_tablas;
 

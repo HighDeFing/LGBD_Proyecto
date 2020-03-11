@@ -1,6 +1,12 @@
+
+alter session set “_oracle_script“=true;
+DROP USER externo07 CASCADE;
+DROP ROLE rolExterno07;
+
 CREATE USER externo07 IDENTIFIED BY a1234;
 CREATE ROLE rolExterno07 IDENTIFIED BY a1234; 
 
+GRANT CREATE SESSION TO externo07;
 GRANT SELECT ON PARTIDA TO rolExterno07;
 GRANT SELECT ON MAPAS TO rolExterno07;
 GRANT SELECT ON HEROES TO rolExterno07;

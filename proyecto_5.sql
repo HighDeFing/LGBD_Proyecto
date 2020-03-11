@@ -12,3 +12,4 @@ FROM HEROES INNER JOIN HABILIDADES
 ON HEROES.hero_id = HABILIDADES.hero_id;
 
 --3. Sentencia que incluya mínimo 3 funciones de caracteres anidadas y utilice 3 tablas
+
